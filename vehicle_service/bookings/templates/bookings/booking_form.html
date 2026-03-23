@@ -1,0 +1,9 @@
+<h2>Book a Service</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+<a href="/bookings/">Back to list</a>
