@@ -19,7 +19,7 @@ jobs:
       SECRET_KEY: ci-secret-key
       DEBUG: "False"
       ALLOWED_HOSTS: localhost,127.0.0.1,testserver
-      SECURE_SSL_REDIRECT: "True"
+      SECURE_SSL_REDIRECT: "False"
 
     steps:
       - name: Checkout repository
@@ -46,6 +46,8 @@ jobs:
         run: python manage.py test
 
       - name: Run deployment checks
+        env:
+          SECURE_SSL_REDIRECT: "True"
         run: python manage.py check --deploy
 
       - name: Collect static files
