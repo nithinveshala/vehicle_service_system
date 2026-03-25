@@ -35,3 +35,30 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
+
+## AWS EC2 Deployment
+
+If you are deploying with Nginx and Gunicorn on Ubuntu EC2:
+
+1. Copy the project to `/home/ubuntu/vehicle_service_system`
+2. Install dependencies and run:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+3. Use [gunicorn.service](C:\Users\nithi\OneDrive\Desktop\vehicle_service_system\deploy\gunicorn.service) as your systemd service template.
+4. Use [nginx.conf](C:\Users\nithi\OneDrive\Desktop\vehicle_service_system\deploy\nginx.conf) as your Nginx site config.
+5. Restart both services:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+sudo systemctl status gunicorn
+sudo journalctl -u gunicorn -n 50 --no-pager
+```

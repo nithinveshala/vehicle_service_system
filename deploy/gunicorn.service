@@ -1,0 +1,16 @@
+[Unit]
+Description=Gunicorn daemon for Vehicle Service System
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/vehicle_service_system
+Environment="PATH=/home/ubuntu/vehicle_service_system/.venv/bin"
+Environment="SECRET_KEY=change-me"
+Environment="DEBUG=False"
+Environment="ALLOWED_HOSTS=52.72.229.205"
+ExecStart=/home/ubuntu/vehicle_service_system/.venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 vehicle_service.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
