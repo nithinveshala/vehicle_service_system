@@ -1,0 +1,21 @@
+<h2>Services</h2>
+<a href="/services/add/">Add Service</a>
+<br><br>
+
+<table border="1">
+<tr>
+<th>Name</th>
+<th>Price</th>
+<th>Description</th>
+</tr>
+
+{% for service in services %}
+<tr>
+<td>{{ service.service_name }}</td>
+<td>{{ service.price }}</td>
+<td>{{ service.description }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/">Back Home</a>

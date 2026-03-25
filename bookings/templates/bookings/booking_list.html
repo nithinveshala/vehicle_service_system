@@ -1,0 +1,21 @@
+<h2>Bookings</h2>
+<a href="/bookings/add/">Book Service</a>
+<br><br>
+
+<table border="1">
+<tr>
+<th>Vehicle</th>
+<th>Service</th>
+<th>Date</th>
+</tr>
+
+{% for booking in bookings %}
+<tr>
+<td>{{ booking.vehicle }}</td>
+<td>{{ booking.service }}</td>
+<td>{{ booking.booking_date }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/">Back Home</a>

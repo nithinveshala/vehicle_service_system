@@ -1,0 +1,21 @@
+<h2>Vehicles</h2>
+<a href="/vehicles/add/">Add Vehicle</a>
+<br><br>
+
+<table border="1">
+<tr>
+<th>Owner</th>
+<th>Vehicle No</th>
+<th>Type</th>
+</tr>
+
+{% for vehicle in vehicles %}
+<tr>
+<td>{{ vehicle.owner_name }}</td>
+<td>{{ vehicle.vehicle_number }}</td>
+<td>{{ vehicle.vehicle_type }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/">Back Home</a>
