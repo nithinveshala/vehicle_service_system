@@ -21,13 +21,13 @@ class BookingViewsTestCase(TestCase):
         )
 
     def test_home_page_loads(self):
-        response = self.client.get(reverse('home'), follow=True)
+        response = self.client.get(reverse('home'), secure=True, follow=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Vehicle Service Booking System')
 
     def test_vehicle_list_shows_saved_vehicle(self):
-        response = self.client.get(reverse('vehicle_list'), follow=True)
+        response = self.client.get(reverse('vehicle_list'), secure=True, follow=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.vehicle.vehicle_number)
@@ -40,6 +40,7 @@ class BookingViewsTestCase(TestCase):
                 'service': self.service.id,
                 'booking_date': date.today().isoformat(),
             },
+            secure=True,
             follow=True,
         )
 
