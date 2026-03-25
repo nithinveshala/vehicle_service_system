@@ -32,6 +32,6 @@ This gives you a clean CI/CD story for project submission: code is validated aut
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python vehicle_service\manage.py migrate
-python vehicle_service\manage.py runserver
+python manage.py migrate
+python manage.py runserver
 ```

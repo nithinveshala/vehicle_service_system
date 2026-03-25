@@ -1,0 +1,12 @@
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+staticfiles/
+vehicle_service/bookings/
+vehicle_service/db.sqlite3
+vehicle_service/vehicle_service/
+vehicle_service/vehicle_service_system/

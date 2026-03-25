@@ -37,19 +37,19 @@ jobs:
           pip install -r requirements.txt
 
       - name: Check for missing migrations
-        run: python vehicle_service/manage.py makemigrations --check --dry-run
+        run: python manage.py makemigrations --check --dry-run
 
       - name: Apply migrations
-        run: python vehicle_service/manage.py migrate --noinput
+        run: python manage.py migrate --noinput
 
       - name: Run Django tests
-        run: python vehicle_service/manage.py test
+        run: python manage.py test
 
       - name: Run deployment checks
-        run: python vehicle_service/manage.py check --deploy
+        run: python manage.py check --deploy
 
       - name: Collect static files
-        run: python vehicle_service/manage.py collectstatic --noinput
+        run: python manage.py collectstatic --noinput
 
   cd:
     name: Build Delivery Artifact
@@ -65,8 +65,12 @@ jobs:
         run: |
           mkdir -p build
           zip -r build/vehicle-service-system.zip \
+            bookings \
+            manage.py \
             vehicle_service \
+            urls.py \
             requirements.txt \
+            README.md \
             .github \
             -x "*/__pycache__/*" \
             -x "*/db.sqlite3" \
