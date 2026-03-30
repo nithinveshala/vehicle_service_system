@@ -1,21 +1,40 @@
-<h2>Vehicles</h2>
-<a href="/vehicles/add/">Add Vehicle</a>
-<br><br>
+{% extends 'bookings/base.html' %}
 
-<table border="1">
-<tr>
-<th>Owner</th>
-<th>Vehicle No</th>
-<th>Type</th>
-</tr>
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h2 class="section-title">Vehicle Directory</h2>
+        <p class="section-copy">Review all registered vehicles and owner details in one place.</p>
+    </div>
+    <a href="/vehicles/add/" class="btn-soft btn-accent">Add Vehicle</a>
+</div>
 
-{% for vehicle in vehicles %}
-<tr>
-<td>{{ vehicle.owner_name }}</td>
-<td>{{ vehicle.vehicle_number }}</td>
-<td>{{ vehicle.vehicle_type }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<a href="/">Back Home</a>
+<div class="data-card">
+    <div class="table-responsive">
+        <table class="table table-modern align-middle">
+            <thead>
+                <tr>
+                    <th>Owner</th>
+                    <th>Email</th>
+                    <th>Vehicle Number</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.owner_name }}</td>
+                        <td>{{ vehicle.email }}</td>
+                        <td>{{ vehicle.vehicle_number }}</td>
+                        <td><span class="pill-tag">{{ vehicle.vehicle_type }}</span></td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-state">No vehicles added yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

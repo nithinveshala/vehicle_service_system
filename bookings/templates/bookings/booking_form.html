@@ -1,9 +1,23 @@
-<h2>Book a Service</h2>
+{% extends 'bookings/base.html' %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="section-title">Schedule Service Booking</h2>
+                <p class="section-copy">Choose a vehicle, service package, and date to create a new appointment.</p>
+            </div>
+            <a href="/bookings/" class="btn-soft">Back to Bookings</a>
+        </div>
 
-<a href="/bookings/">Back to list</a>
+        <div class="data-card form-panel">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-soft btn-accent">Submit Booking</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

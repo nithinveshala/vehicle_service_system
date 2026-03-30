@@ -1,9 +1,24 @@
-<h2>Login</h2>
+{% extends 'bookings/base.html' %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="hero-panel mb-4">
+            <span class="pill-tag mb-3">Customer Access</span>
+            <h2 class="section-title">Sign in to your customer account</h2>
+            <p class="section-copy">Use your customer username and password to view and manage service bookings securely.</p>
+        </div>
 
-<a href="/">Back Home</a>
+        <div class="data-card form-panel">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                    <button type="submit" class="btn-soft btn-accent">Sign In</button>
+                    <a href="/" class="btn-soft">Back Home</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

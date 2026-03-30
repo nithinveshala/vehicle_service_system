@@ -3,24 +3,375 @@
 <head>
     <title>Vehicle Service System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4efe7;
+            --surface: rgba(255, 255, 255, 0.78);
+            --ink: #1f2937;
+            --muted: #6b7280;
+            --brand: #b45309;
+            --brand-deep: #7c2d12;
+            --accent: #0f766e;
+            --border: rgba(148, 163, 184, 0.25);
+            --shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(245, 158, 11, 0.22), transparent 28%),
+                radial-gradient(circle at top right, rgba(20, 184, 166, 0.2), transparent 24%),
+                linear-gradient(135deg, #f9f7f2 0%, #f4efe7 52%, #eaf4f1 100%);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .app-shell {
+            width: min(1160px, calc(100% - 32px));
+            margin: 24px auto;
+        }
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+            border-radius: 28px;
+            padding: 18px 22px;
+        }
+
+        .brand-mark {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 700;
+            box-shadow: 0 12px 24px rgba(180, 83, 9, 0.28);
+        }
+
+        .brand-copy h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .brand-copy p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .nav-pills-custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-pill {
+            border: 1px solid rgba(180, 83, 9, 0.14);
+            background: rgba(255, 255, 255, 0.82);
+            color: var(--brand-deep);
+            padding: 10px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .nav-pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(124, 45, 18, 0.12);
+            background: #fff8f0;
+        }
+
+        .nav-pill.primary {
+            background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+            color: #fff;
+            border: none;
+        }
+
+        .nav-pill.auth {
+            background: linear-gradient(135deg, var(--accent), #115e59);
+            color: #fff;
+            border: none;
+        }
+
+        .nav-form {
+            margin: 0;
+        }
+
+        .nav-pill-button {
+            cursor: pointer;
+        }
+
+        .user-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(15, 118, 110, 0.1);
+            color: #134e4a;
+            font-weight: 600;
+        }
+
+        .page-card {
+            margin-top: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+            padding: 28px;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.6rem);
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .section-copy {
+            color: var(--muted);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        .metric-card,
+        .action-card,
+        .data-card,
+        .hero-panel {
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        .hero-panel {
+            position: relative;
+            overflow: hidden;
+            padding: 24px;
+            background:
+                radial-gradient(circle at top right, rgba(20, 184, 166, 0.12), transparent 28%),
+                linear-gradient(135deg, rgba(255, 247, 237, 0.94), rgba(255, 255, 255, 0.92));
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .hero-chip {
+            padding: 16px 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(180, 83, 9, 0.12);
+        }
+
+        .hero-chip strong {
+            display: block;
+            font-size: 1.5rem;
+        }
+
+        .metric-card {
+            padding: 22px;
+            height: 100%;
+        }
+
+        .metric-label {
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .metric-note {
+            color: var(--muted);
+            margin: 8px 0 0;
+        }
+
+        .action-card {
+            padding: 24px;
+            height: 100%;
+        }
+
+        .action-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .action-card p {
+            color: var(--muted);
+            min-height: 48px;
+        }
+
+        .btn-soft {
+            background: #fff7ed;
+            color: var(--brand-deep);
+            border: 1px solid rgba(180, 83, 9, 0.18);
+            border-radius: 999px;
+            padding: 10px 18px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-soft:hover {
+            background: #ffedd5;
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), #115e59);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-soft.btn-accent:hover {
+            color: #fff;
+            filter: brightness(1.04);
+        }
+
+        .data-card {
+            padding: 24px;
+        }
+
+        .table-modern {
+            margin-bottom: 0;
+        }
+
+        .table-modern thead th {
+            border-bottom: none;
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .table-modern tbody td {
+            vertical-align: middle;
+            border-color: rgba(226, 232, 240, 0.8);
+        }
+
+        .pill-tag {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 6px 12px;
+            background: #ecfeff;
+            color: #155e75;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--muted);
+        }
+
+        .danger-panel {
+            background: rgba(254, 242, 242, 0.95);
+            border: 1px solid rgba(220, 38, 38, 0.16);
+            border-radius: 24px;
+            padding: 24px;
+        }
+
+        .form-panel label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-panel input,
+        .form-panel select,
+        .form-panel textarea {
+            width: 100%;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            border-radius: 16px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            background: #fff;
+        }
+
+        .form-panel textarea {
+            min-height: 120px;
+        }
+
+        .form-panel .helptext {
+            display: block;
+            color: var(--muted);
+            margin-top: -10px;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+        }
+
+        .form-panel ul.errorlist {
+            color: #b91c1c;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .app-shell {
+                width: min(100% - 20px, 100%);
+            }
+
+            .topbar,
+            .page-card {
+                padding: 18px;
+                border-radius: 24px;
+            }
+        }
+    </style>
 </head>
-<body class="container mt-4">
+<body>
+<div class="app-shell">
+    <nav class="topbar">
+        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="brand-mark">VS</div>
+                <div class="brand-copy">
+                    <h1>Vehicle Service Dashboard</h1>
+                    <p>Track service requests, vehicles, and workshop operations from one place.</p>
+                </div>
+            </div>
 
-<nav class="mb-4">
-    <a href="/" class="btn btn-primary">Home</a>
-    <a href="/vehicles/" class="btn btn-secondary">Vehicles</a>
-    <a href="/services/" class="btn btn-secondary">Services</a>
-    <a href="/bookings/" class="btn btn-secondary">Bookings</a>
+            <div class="nav-pills-custom">
+                <a href="/" class="nav-pill primary">Dashboard</a>
+                <a href="/vehicles/" class="nav-pill">Vehicles</a>
+                <a href="/services/" class="nav-pill">Services</a>
+                <a href="/bookings/" class="nav-pill">Bookings</a>
 
-    {% if user.is_authenticated %}
-        <a href="/logout/" class="btn btn-danger float-end">Logout</a>
-    {% else %}
-        <a href="/login/" class="btn btn-success float-end">Login</a>
-    {% endif %}
-</nav>
+                {% if user.is_authenticated %}
+                    <span class="user-chip">{{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}" class="nav-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-pill nav-pill-button auth">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-pill auth">Customer Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
 
-{% block content %}
-{% endblock %}
-
+    <main class="page-card">
+        {% block content %}
+        {% endblock %}
+    </main>
+</div>
 </body>
 </html>

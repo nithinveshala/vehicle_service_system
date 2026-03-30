@@ -1,10 +1,30 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render, redirect
+from django.utils import timezone
 from .models import Vehicle, Service, Booking
-from .forms import VehicleForm, ServiceForm, BookingForm
+from .forms import VehicleForm, ServiceForm, BookingForm, CustomerLoginForm
 from django.contrib.auth.decorators import login_required
 
+
+class CustomerLoginView(LoginView):
+    template_name = 'bookings/login.html'
+    authentication_form = CustomerLoginForm
+    redirect_authenticated_user = True
+
+
+class CustomerLogoutView(LogoutView):
+    http_method_names = ['post']
+
+
 def home(request):
-    return render(request, 'bookings/home.html')
+    context = {
+        'vehicle_count': Vehicle.objects.count(),
+        'service_count': Service.objects.count(),
+        'booking_count': Booking.objects.count(),
+        'today_booking_count': Booking.objects.filter(booking_date=timezone.localdate()).count(),
+        'recent_bookings': Booking.objects.select_related('vehicle', 'service').order_by('-created_at')[:5],
+    }
+    return render(request, 'bookings/home.html', context)
 
 
 # ---------------- VEHICLE ----------------
@@ -13,6 +33,7 @@ def vehicle_list(request):
     vehicles = Vehicle.objects.all()
     return render(request, 'bookings/vehicle_list.html', {'vehicles': vehicles})
 
+@login_required
 def vehicle_create(request):
     form = VehicleForm(request.POST or None)
     if form.is_valid():
@@ -27,6 +48,7 @@ def service_list(request):
     services = Service.objects.all()
     return render(request, 'bookings/service_list.html', {'services': services})
 
+@login_required
 def service_create(request):
     form = ServiceForm(request.POST or None)
     if form.is_valid():
@@ -37,10 +59,12 @@ def service_create(request):
 
 # ---------------- BOOKING ----------------
 
+@login_required
 def booking_list(request):
     bookings = Booking.objects.all()
     return render(request, 'bookings/booking_list.html', {'bookings': bookings})
 
+@login_required
 def booking_create(request):
     form = BookingForm(request.POST or None)
     if form.is_valid():

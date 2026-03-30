@@ -1,21 +1,38 @@
-<h2>Bookings</h2>
-<a href="/bookings/add/">Book Service</a>
-<br><br>
+{% extends 'bookings/base.html' %}
 
-<table border="1">
-<tr>
-<th>Vehicle</th>
-<th>Service</th>
-<th>Date</th>
-</tr>
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h2 class="section-title">Service Bookings</h2>
+        <p class="section-copy">Track scheduled appointments and upcoming workshop work.</p>
+    </div>
+    <a href="/bookings/add/" class="btn-soft btn-accent">Book Service</a>
+</div>
 
-{% for booking in bookings %}
-<tr>
-<td>{{ booking.vehicle }}</td>
-<td>{{ booking.service }}</td>
-<td>{{ booking.booking_date }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<a href="/">Back Home</a>
+<div class="data-card">
+    <div class="table-responsive">
+        <table class="table table-modern align-middle">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.vehicle }}</td>
+                        <td>{{ booking.service }}</td>
+                        <td>{{ booking.booking_date }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="empty-state">No bookings created yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

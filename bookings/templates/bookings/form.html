@@ -1,9 +1,23 @@
-<h2>{{ title }}</h2>
+{% extends 'bookings/base.html' %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="section-title">{{ title }}</h2>
+                <p class="section-copy">Fill in the details below to save the record into the system.</p>
+            </div>
+            <a href="/" class="btn-soft">Back Home</a>
+        </div>
 
-<a href="/">Back Home</a>
+        <div class="data-card form-panel">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-soft btn-accent">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

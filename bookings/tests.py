@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
@@ -8,6 +9,10 @@ from .models import Booking, Service, Vehicle
 
 class BookingViewsTestCase(TestCase):
     def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='customer1',
+            password='StrongPass123!',
+        )
         self.vehicle = Vehicle.objects.create(
             owner_name='Nithin',
             email='nithin@example.com',
@@ -24,7 +29,7 @@ class BookingViewsTestCase(TestCase):
         response = self.client.get(reverse('home'), secure=True, follow=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Vehicle Service Booking System')
+        self.assertContains(response, 'Vehicle Service Dashboard')
 
     def test_vehicle_list_shows_saved_vehicle(self):
         response = self.client.get(reverse('vehicle_list'), secure=True, follow=True)
@@ -32,7 +37,38 @@ class BookingViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.vehicle.vehicle_number)
 
+    def test_booking_list_requires_login(self):
+        response = self.client.get(reverse('booking_list'), secure=True)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse('login'), response['Location'])
+
+    def test_customer_can_log_in(self):
+        response = self.client.post(
+            reverse('login'),
+            {
+                'username': 'customer1',
+                'password': 'StrongPass123!',
+            },
+            secure=True,
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['user'].is_authenticated)
+        self.assertContains(response, 'customer1')
+
+    def test_customer_can_log_out(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(reverse('logout'), secure=True, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['user'].is_authenticated)
+        self.assertContains(response, 'Customer Login')
+
     def test_booking_create_saves_booking(self):
+        self.client.force_login(self.user)
         response = self.client.post(
             reverse('booking_create'),
             {

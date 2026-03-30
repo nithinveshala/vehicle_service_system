@@ -1,14 +1,135 @@
-<h1>Vehicle Service Booking System 🚗</h1>
+{% extends 'bookings/base.html' %}
 
-<h3>Manage</h3>
+{% block content %}
+<div class="row align-items-center g-4 mb-4">
+    <div class="col-lg-7">
+        <span class="pill-tag mb-3">Workshop Command Center</span>
+        <h2 class="section-title">Manage your service desk with a cleaner, faster dashboard.</h2>
+        <p class="section-copy">
+            Review active records, jump straight into data entry, and keep the entire vehicle service workflow organized.
+        </p>
+    </div>
+    <div class="col-lg-5">
+        <div class="hero-panel h-100">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <p class="metric-label">System Overview</p>
+                    <h3 class="mb-2">Today's admin snapshot</h3>
+                    <p class="section-copy mb-0">A quick summary of the records currently stored in your application.</p>
+                </div>
+                <span class="pill-tag">Live</span>
+            </div>
+            <div class="hero-grid">
+                <div class="hero-chip">
+                    <span class="metric-label">Today's Bookings</span>
+                    <strong>{{ today_booking_count }}</strong>
+                    <span class="section-copy">Appointments scheduled for today.</span>
+                </div>
+                <div class="hero-chip">
+                    <span class="metric-label">Quick Focus</span>
+                    <strong>{% if booking_count %}Active{% else %}Start{% endif %}</strong>
+                    <span class="section-copy">Keep service entries and bookings updated.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a href="/vehicles/">View Vehicles</a> |
-<a href="/vehicles/add/">Add Vehicle</a>
-<br><br>
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="metric-card">
+            <p class="metric-label">Vehicles</p>
+            <p class="metric-value">{{ vehicle_count }}</p>
+            <p class="metric-note">Registered customer vehicles in the system.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="metric-card">
+            <p class="metric-label">Services</p>
+            <p class="metric-value">{{ service_count }}</p>
+            <p class="metric-note">Service packages available for booking.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="metric-card">
+            <p class="metric-label">Bookings</p>
+            <p class="metric-value">{{ booking_count }}</p>
+            <p class="metric-note">Appointments created by workshop staff.</p>
+        </div>
+    </div>
+</div>
 
-<a href="/services/">View Services</a> |
-<a href="/services/add/">Add Service</a>
-<br><br>
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="action-card">
+            <span class="pill-tag mb-3">Vehicle Desk</span>
+            <h3>Add Vehicle</h3>
+            <p>Register a customer vehicle with ownership and vehicle type details.</p>
+            <a href="/vehicles/add/" class="btn-soft">Open form</a>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="action-card">
+            <span class="pill-tag mb-3">Directory</span>
+            <h3>View Vehicles</h3>
+            <p>Browse all stored vehicles and review the workshop's current customer base.</p>
+            <a href="/vehicles/" class="btn-soft">Open list</a>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="action-card">
+            <span class="pill-tag mb-3">Service Menu</span>
+            <h3>Add Service</h3>
+            <p>Create new service offerings with pricing and description information.</p>
+            <a href="/services/add/" class="btn-soft">Create service</a>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="action-card">
+            <span class="pill-tag mb-3">Bookings</span>
+            <h3>Book Service</h3>
+            <p>Schedule a service appointment for a selected vehicle in just a few steps.</p>
+            <a href="/bookings/add/" class="btn-soft btn-accent">New booking</a>
+        </div>
+    </div>
+</div>
 
-<a href="/bookings/">View Bookings</a> |
-<a href="/bookings/add/">Book Service</a>
+<div class="data-card">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+        <div>
+            <h3 class="mb-1">Recent Bookings</h3>
+            <p class="section-copy">The latest service activity recorded in the system.</p>
+        </div>
+        <a href="/bookings/" class="btn-soft">View all bookings</a>
+    </div>
+
+    {% if recent_bookings %}
+        <div class="table-responsive">
+            <table class="table table-modern align-middle">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Service</th>
+                        <th>Booking Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in recent_bookings %}
+                        <tr>
+                            <td>{{ booking.vehicle.vehicle_number }}<br><small class="text-muted">{{ booking.vehicle.owner_name }}</small></td>
+                            <td>{{ booking.service.service_name }}</td>
+                            <td>{{ booking.booking_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h4>No bookings yet</h4>
+            <p class="mb-3">Start by creating your first service booking from the dashboard.</p>
+            <a href="/bookings/add/" class="btn-soft btn-accent">Create first booking</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

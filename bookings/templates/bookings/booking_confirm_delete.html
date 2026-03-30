@@ -1,6 +1,21 @@
-<h2>Are you sure you want to delete booking for {{ booking.vehicle.vehicle_number }}?</h2>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-</form>
-<a href="{% url 'booking_list' %}">Cancel</a>
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="danger-panel">
+            <span class="pill-tag mb-3">Confirm Delete</span>
+            <h2 class="section-title">Remove this booking?</h2>
+            <p class="section-copy mb-4">
+                You are about to delete the booking for <strong>{{ booking.vehicle.vehicle_number }}</strong>.
+                This action should only be used when the appointment is no longer valid.
+            </p>
+            <form method="post" class="d-flex flex-wrap gap-3">
+                {% csrf_token %}
+                <button type="submit" class="btn-soft btn-accent">Yes, Delete</button>
+                <a href="{% url 'booking_list' %}" class="btn-soft">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
