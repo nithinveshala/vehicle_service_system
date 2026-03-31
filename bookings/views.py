@@ -1,8 +1,9 @@
+from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import Vehicle, Service, Booking
-from .forms import VehicleForm, ServiceForm, BookingForm, CustomerLoginForm
+from .forms import VehicleForm, ServiceForm, BookingForm, CustomerLoginForm, CustomerRegisterForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -14,6 +15,19 @@ class CustomerLoginView(LoginView):
 
 class CustomerLogoutView(LogoutView):
     http_method_names = ['post']
+
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    form = CustomerRegisterForm(request.POST or None)
+    if form.is_valid():
+        user = form.save()
+        login(request, user)
+        return redirect('home')
+
+    return render(request, 'bookings/register.html', {'form': form})
 
 
 def home(request):

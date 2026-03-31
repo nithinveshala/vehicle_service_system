@@ -362,6 +362,7 @@
                         <button type="submit" class="nav-pill nav-pill-button auth">Logout</button>
                     </form>
                 {% else %}
+                    <a href="{% url 'register' %}" class="nav-pill">Register</a>
                     <a href="{% url 'login' %}" class="nav-pill auth">Customer Login</a>
                 {% endif %}
             </div>
