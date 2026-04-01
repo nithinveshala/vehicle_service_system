@@ -95,30 +95,6 @@
             border: none;
         }
 
-        .nav-pill.auth {
-            background: linear-gradient(135deg, var(--accent), #115e59);
-            color: #fff;
-            border: none;
-        }
-
-        .nav-form {
-            margin: 0;
-        }
-
-        .nav-pill-button {
-            cursor: pointer;
-        }
-
-        .user-chip {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 14px;
-            border-radius: 999px;
-            background: rgba(15, 118, 110, 0.1);
-            color: #134e4a;
-            font-weight: 600;
-        }
-
         .page-card {
             margin-top: 24px;
             background: var(--surface);
@@ -354,17 +330,6 @@
                 <a href="/vehicles/" class="nav-pill">Vehicles</a>
                 <a href="/services/" class="nav-pill">Services</a>
                 <a href="/bookings/" class="nav-pill">Bookings</a>
-
-                {% if user.is_authenticated %}
-                    <span class="user-chip">{{ user.username }}</span>
-                    <form method="post" action="{% url 'logout' %}" class="nav-form">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-pill nav-pill-button auth">Logout</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'register' %}" class="nav-pill">Register</a>
-                    <a href="{% url 'login' %}" class="nav-pill auth">Customer Login</a>
-                {% endif %}
             </div>
         </div>
     </nav>
